@@ -8,6 +8,7 @@ run();
 
 async function run() {
   let pr;
+  console.log('blah', process.env.CIRCLE_BRANCH, process.env.CIRCLE_BRANCH === 'main')
   // If we aren't running on a PR commit, double check if this is a branch created for a fork. If so, we'll need to
   // comment the build link on the fork.
   if (!process.env.CIRCLE_PULL_REQUEST) {
