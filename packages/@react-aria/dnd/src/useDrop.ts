@@ -15,7 +15,7 @@ import * as DragManager from './DragManager';
 import {DragTypes, readFromDataTransfer} from './utils';
 import {DROP_EFFECT_TO_DROP_OPERATION, DROP_OPERATION, DROP_OPERATION_ALLOWED, DROP_OPERATION_TO_DROP_EFFECT} from './constants';
 import {DropActivateEvent, DropEnterEvent, DropEvent, DropExitEvent, DropMoveEvent, DropOperation, DragTypes as IDragTypes} from '@react-types/shared';
-import {getDnDState, setDnDState, setDropEffect, setDroppedTarget} from '@react-stately/dnd';
+import {getDnDState, setDnDState, setDropEffect, setDroppedTarget, setFrozenDnDState} from '@react-stately/dnd';
 import {useLayoutEffect} from '@react-aria/utils';
 import {useVirtualDrop} from './useVirtualDrop';
 
@@ -183,7 +183,7 @@ export function useDrop(options: DropOptions): DropResult {
     // This behavior is consistent across browsers, but see this issue for details:
     // https://bugzilla.mozilla.org/show_bug.cgi?id=460801
     setTimeout(() => {
-      setDnDState(dndStateSnapshot);
+      setFrozenDnDState(dndStateSnapshot);
       if (typeof options.onDrop === 'function') {
         options.onDrop(event);
       }

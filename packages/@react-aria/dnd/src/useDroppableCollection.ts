@@ -12,7 +12,7 @@
 
 import {Collection, DropEvent, DropOperation, DroppableCollectionDropEvent, DroppableCollectionProps, DropPosition, DropTarget, KeyboardDelegate, Node} from '@react-types/shared';
 import * as DragManager from './DragManager';
-import {DroppableCollectionState, getDnDState, setCurrentDropCollectionRef, setDroppedCollectionRef, setDroppedTarget} from '@react-stately/dnd';
+import {DroppableCollectionState, getDnDState, getFrozenDnDState, setCurrentDropCollectionRef, setDroppedCollectionRef, setDroppedTarget, setFrozenDnDState} from '@react-stately/dnd';
 import {getTypes} from './utils';
 import {HTMLAttributes, Key, RefObject, useCallback, useEffect, useRef} from 'react';
 import {mergeProps, useLayoutEffect} from '@react-aria/utils';
@@ -56,8 +56,13 @@ export function useDroppableCollection(props: DroppableCollectionOptions, state:
       onItemDrop,
       onReorder
     } = localState.props;
-
     let {draggingCollectionRef, draggingKeys} = getDnDState();
+    // Get frozen DnD state if draggingCollectionRef is null since this is indicative of a mouse DnD operation where
+    // onDrop is delayed in useDrop and thus global DnD state is cleared by the time useDrop is called
+    if (draggingCollectionRef == null) {
+      ({draggingCollectionRef, draggingKeys} = getFrozenDnDState());
+    }
+
     let isInternalDrop = draggingCollectionRef?.current === ref?.current;
     let {
       target,
@@ -128,9 +133,12 @@ export function useDroppableCollection(props: DroppableCollectionOptions, state:
       }
     },
     onDrop(e) {
-      setDroppedCollectionRef(ref);
+      // TODO: should also set droppedCollectionRef and droppedTarget in the non-frozen state as well?
+      // Maybe use a capturing listener? But what if we have nested droppable collections how? Make use of closest?
+      let frozenDnDState = getFrozenDnDState();
+      setFrozenDnDState({...frozenDnDState, droppedCollectionRef: ref});
       if (state.target) {
-        setDroppedTarget(state.target);
+        setFrozenDnDState({...frozenDnDState, droppedCollectionRef: ref, droppedTarget: state.target});
         onDrop(e, state.target);
       }
     }

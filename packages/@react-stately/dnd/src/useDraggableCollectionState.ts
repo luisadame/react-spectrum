@@ -11,7 +11,7 @@
  */
 
 import {Collection, DragEndEvent, DraggableCollectionProps, DragItem, DragMoveEvent, DragPreviewRenderer, DragStartEvent, DropOperation, Node} from '@react-types/shared';
-import {getDnDState, setDraggingKeys} from './utils';
+import {getDnDState, getFrozenDnDState, setDraggingKeys} from './utils';
 import {Key, RefObject, useRef, useState} from 'react';
 import {MultipleSelectionManager} from '@react-stately/selection';
 
@@ -106,6 +106,11 @@ export function useDraggableCollectionState(props: DraggableCollectionOptions): 
     },
     endDrag(event) {
       let {draggingCollectionRef, droppedCollectionRef, droppedTarget} = getDnDState();
+      // Get frozen DnD state if draggingCollectionRef is null since this is indicative of a mouse DnD operation where
+      // endDrag is delayed in useDrag and thus global DnD state is cleared by the time endDrag is called
+      if (draggingCollectionRef == null) {
+        ({draggingCollectionRef, droppedCollectionRef, droppedTarget} = getFrozenDnDState());
+      }
       let isInternalDrop = droppedCollectionRef?.current === draggingCollectionRef?.current;
       let isInternalFolderDrop = isInternalDrop && !(droppedTarget instanceof HTMLElement) && droppedTarget?.type === 'item' && droppedTarget?.dropPosition === 'on' && !!collection.getItem(droppedTarget.key).childNodes;
       // If it is a 'move' drop operatation to a drop target outside the collection or a folder within the dragged collection, we can assume the user wants to remove the items from the source collection

@@ -11,7 +11,7 @@
  */
 
 import {AriaButtonProps} from '@react-types/button';
-import {clearDnDState, getDnDState} from '@react-stately/dnd';
+import {clearDnDState, clearFrozenDnDState, getDnDState, getFrozenDnDState, setFrozenDnDState} from '@react-stately/dnd';
 import {DragEndEvent, DragItem, DragMoveEvent, DragPreviewRenderer, DragStartEvent, DropOperation, PressEvent} from '@react-types/shared';
 import {DragEvent, HTMLAttributes, RefObject, useRef, useState} from 'react';
 import * as DragManager from './DragManager';
@@ -65,9 +65,10 @@ export function useDrag(options: DragOptions): DragResult {
   let {addGlobalListener, removeAllGlobalListeners} = useGlobalListeners();
 
   let onDragStart = (e: DragEvent) => {
-    // Clear global DnD state in case it wasn't cleared via drag end
+    // Clear global DnD states in case it wasn't cleared via drag end
     // (i.e non RSP drag item dropped on droppable collection doesn't trigger our drag end)
     clearDnDState();
+    clearFrozenDnDState();
     if (e.defaultPrevented) {
       return;
     }
@@ -160,10 +161,9 @@ export function useDrag(options: DragOptions): DragResult {
       y: e.clientY,
       dropOperation: DROP_EFFECT_TO_DROP_OPERATION[e.dataTransfer.dropEffect]
     };
-
     setTimeout(() => {
       if (typeof options.onDragEnd === 'function') {
-        let {dropEffect} = getDnDState();
+        let {dropEffect} = getFrozenDnDState();
         // Chrome Android always returns none as its dropEffect so we use the drop effect from onDrop instead
         // TODO file browser bug
         if (dropEffect) {
@@ -171,9 +171,10 @@ export function useDrag(options: DragOptions): DragResult {
         }
         options.onDragEnd(event);
       }
-      clearDnDState();
+      clearFrozenDnDState();
     }, 0);
 
+    clearDnDState();
     setDragging(false);
     removeAllGlobalListeners();
   };
@@ -186,6 +187,7 @@ export function useDrag(options: DragOptions): DragResult {
     // Clear global DnD state in case it wasn't cleared via drag end
     // (i.e non RSP drag item dropped on droppable collection doesn't trigger our drag end)
     clearDnDState();
+    clearFrozenDnDState();
 
     if (typeof state.options.onDragStart === 'function') {
       let rect = (e.target as HTMLElement).getBoundingClientRect();

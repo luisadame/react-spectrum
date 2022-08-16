@@ -19,10 +19,15 @@ export interface DnDState {
 }
 
 let dndState: DnDState = {draggingKeys: new Set()};
+let frozenDnDState: DnDState = {draggingKeys: new Set()};
 
 // TODO naming? maybe getGlobalDnDState?
 export function getDnDState(): DnDState {
   return dndState;
+}
+
+export function getFrozenDnDState(): DnDState {
+  return frozenDnDState;
 }
 
 export function setDraggingCollectionRef(ref: RefObject<HTMLElement>) {
@@ -53,6 +58,14 @@ export function clearDnDState() {
   dndState = {draggingKeys: new Set()};
 }
 
+export function clearFrozenDnDState() {
+  frozenDnDState = {draggingKeys: new Set()};
+}
+
 export function setDnDState(state: DnDState) {
   dndState = state;
+}
+
+export function setFrozenDnDState(state: DnDState) {
+  frozenDnDState = state;
 }

@@ -441,7 +441,7 @@ describe('ListView', function () {
         expect(onDragEnd).toHaveBeenCalledTimes(1);
       });
 
-      it('should reset the global drop state on drag start', function () {
+      it.only('should reset the global drop state on drag start', function () {
         let {getAllByRole} = render(
           <DragBetweenListsComplex secondListDnDOptions={{getDropOperation: () => 'copy', onDrop}} />
         );
@@ -463,15 +463,9 @@ describe('ListView', function () {
         expect(dndState).toEqual({
           draggingKeys: new Set(),
           currentDropCollectionRef: expect.any(Object),
-          droppedCollectionRef: expect.any(Object),
           dropEffect: 'copy',
-          droppedTarget: {
-            dropPosition: 'before',
-            key: '7',
-            type: 'item'
-          }});
+          droppedTarget: expect.any(Element)});
         expect(dndState.currentDropCollectionRef.current).toBe(grids[1]);
-        expect(dndState.droppedCollectionRef.current).toBe(grids[1]);
 
         // Upon drag start, all previous tracked info in the global DnD state should be wiped and replaced
         let rows = within(grids[1]).getAllByRole('row');
