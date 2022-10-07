@@ -10,6 +10,22 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+.spectrum-Textfield {
+  &:focus-ring {
+    &:after {
+      box-shadow: 0 0 0 var(--spectrum-alias-input-focusring-size) var(--spectrum-alias-focus-ring-color);
+    }
+  }
+}
+
+.spectrum-Textfield--quiet {
+  &:focus-ring {
+    &:after {
+      box-shadow: 0 var(--spectrum-alias-input-focusring-size) 0 var(--spectrum-alias-focus-ring-color);
+    }
+  }
+}
+
 .spectrum-Textfield-input {
   background-color: var(--spectrum-textfield-background-color);
   border-color: var(--spectrum-textfield-border-color);
@@ -51,7 +67,7 @@ governing permissions and limitations under the License.
 
   &:focus,
   &.is-focused {
-    border-color: var(--spectrum-textfield-border-color-down);
+    border-color: var(--spectrum-textfield-border-color-key-focus);
   }
 
   &:focus-ring {
@@ -182,12 +198,12 @@ governing permissions and limitations under the License.
     --spectrum-textfield-border-color-key-focus: Highlight;
     --spectrum-textfield-placeholder-text-color: GrayText;
     --spectrum-textfield-placeholder-text-color-hover: GrayText;
-    &.focus-ring, 
+    &.focus-ring,
     &:focus-ring {
       outline: 2px solid Highlight;
-    }  
+    }
     .spectrum-Textfield--quiet & {
-      &.focus-ring, 
+      &.focus-ring,
       &:focus-ring {
         forced-color-adjust: none;
         outline: 0;
@@ -197,7 +213,7 @@ governing permissions and limitations under the License.
         }
       }
     }
-   
+
 
   }
 }

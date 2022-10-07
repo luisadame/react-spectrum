@@ -59,6 +59,12 @@ governing permissions and limitations under the License.
   }
 
   &:not(.spectrum-Stepper--isQuiet) {
+    &:focus-ring {
+      &:after {
+        box-shadow: 0 0 0 var(--spectrum-alias-input-focusring-size) var(--spectrum-alias-focus-ring-color);
+      }
+    }
+
     .spectrum-Stepper-input {
       border-color: var(--spectrum-textfield-border-color);
     }
@@ -91,15 +97,6 @@ governing permissions and limitations under the License.
         border-color: var(--spectrum-textfield-border-color-key-focus);
       }
     }
-    &.focus-ring, &:focus-ring {
-      box-shadow: 0 0 0 1px var(--spectrum-textfield-border-color-key-focus);
-      .spectrum-Stepper-input {
-        border-color: var(--spectrum-textfield-border-color-key-focus);
-      }
-      .spectrum-Stepper-button {
-        border-color: var(--spectrum-textfield-border-color-key-focus);
-      }
-    }
     &.is-disabled, &:disabled {
       .spectrum-Stepper-input {
         border-color: var(--spectrum-textfield-border-color-disabled);
@@ -109,9 +106,6 @@ governing permissions and limitations under the License.
       }
     }
     &.is-invalid {
-      &.focus-ring, &:focus-ring {
-        box-shadow: 0 0 0 1px var(--spectrum-textfield-border-color-key-focus);
-      }
       &.focus-ring, &:focus-ring, &.is-focused {
         .spectrum-Stepper-input {
           border-color: var(--spectrum-textfield-border-color-key-focus);
@@ -130,6 +124,11 @@ governing permissions and limitations under the License.
   }
 
   &.spectrum-Stepper--isQuiet {
+    &:focus-ring {
+      &:after {
+        box-shadow: 0 var(--spectrum-alias-input-focusring-size) 0 var(--spectrum-alias-focus-ring-color);
+      }
+    }
     .spectrum-Stepper-input {
       border-color: var(--spectrum-textfield-quiet-border-color);
     }
@@ -163,7 +162,6 @@ governing permissions and limitations under the License.
       }
     }
     &.focus-ring, &:focus-ring {
-      box-shadow: 0 1px 0 0 var(--spectrum-textfield-quiet-border-color-key-focus);
       .spectrum-Stepper-input {
         border-color: var(--spectrum-textfield-quiet-border-color-key-focus);
       }
@@ -180,9 +178,6 @@ governing permissions and limitations under the License.
       }
     }
     &.is-invalid {
-      &.focus-ring, &:focus-ring {
-        box-shadow: 0 1px 0 0 var(--spectrum-textfield-quiet-border-color-key-focus);
-      }
       &.is-focused {
         .spectrum-Stepper-input {
           border-color: var(--spectrum-textfield-quiet-border-color-key-focus);
@@ -277,7 +272,7 @@ governing permissions and limitations under the License.
     &:not(.spectrum-Stepper--isQuiet) {
       &.is-focused, &:focus {
         outline: 2px solid Highlight;
-      }    
+      }
     }
     &.spectrum-Stepper--readonly {
       &.spectrum-Stepper--isQuiet {
@@ -287,9 +282,9 @@ governing permissions and limitations under the License.
       }
     }
     &.spectrum-Stepper--isQuiet {
-      &.is-focused, 
+      &.is-focused,
       &:focus,
-      &.focus-ring, 
+      &.focus-ring,
       &:focus-ring {
         forced-color-adjust: none;
         box-shadow: 0 1px 0 0 var(--spectrum-textfield-quiet-border-color-key-focus);
@@ -302,7 +297,7 @@ governing permissions and limitations under the License.
           border-color: var(--spectrum-textfield-quiet-border-color-key-focus);
         }
       }
-      &.is-hovered, 
+      &.is-hovered,
       &:hover {
         .spectrum-Stepper-input {
           border-color: var(--spectrum-textfield-quiet-border-color-key-focus);
@@ -313,7 +308,7 @@ governing permissions and limitations under the License.
       }
     }
 
-   
+
 
   }
 }

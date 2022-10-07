@@ -15,7 +15,7 @@ governing permissions and limitations under the License.
 }
 
 .spectrum-Badge--neutral {
-  background-color: var(--spectrum-label-colored-gray-background-color);
+  background-color: var(--spectrum-semantic-neutral-color-background);
 }
 
 .spectrum-Badge--negative {
